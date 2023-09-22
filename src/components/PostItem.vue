@@ -2,8 +2,8 @@
 
     <div class="post-item">
         <div>
-            <div><strong>Название: </strong> {{ post.title }}</div>
-            <div><strong>Текст: </strong> {{ post.text }}</div>
+            <div class="post-item-title"><strong>Название: </strong> {{ post.title }}</div>
+            <div class="post-item-text"><strong>Текст: </strong> {{ post.text }}</div>
         </div>
         
         <div class="post-btns">
@@ -45,6 +45,14 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
+
+    .post-btns {
+      margin-left: 20px;
+    }
+
+    .post-item-title, .post-item-text {
+      margin-bottom: 10px;
     }
  
   </style>

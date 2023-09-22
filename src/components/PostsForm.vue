@@ -2,7 +2,7 @@
 
     <form class="form" @submit.prevent>
       <input-item v-model:value="post.title" placeholder="названеи поста"/>
-      <textarea class="textarea" v-model="post.text" name="" id="" cols="30" rows="10" placeholder="текст поста"></textarea>
+      <textarea class="textarea" v-model.trim="post.text" name="" id="" cols="30" rows="10" placeholder="текст поста"></textarea>
       <div class="warn" v-if="validateFields">
         Заполните недостающие поля
       </div>
@@ -23,7 +23,7 @@
     data() {
       return {
         post: {
-          id: new Date(),
+          id: '',
           title: '',
           text: '',
         },
@@ -35,15 +35,16 @@
     methods: {
       addNewPost() {
         if (this.post.title.trim() && this.post.text.trim()) {
+          this.post.id = new Date();
           this.$emit('newPost', this.post)// Событие, которое мы будем слшать в родителе, чтобы принять новый пост и второй параметр - аргумент, который будем передавать
           this.post.title = ''
           this.post.text = ''
+          this.post.id = ''
           this.validateFields = false
         } else {
           this.validateFields = true
         }
       },
-  
     },
   }
   </script>
