@@ -8,6 +8,9 @@
           :post="post"
           @delPost="$emit('delPost', post)"
         />
+        <li class="spinnerItem" v-if="spinnerVisible">
+          <spinner-item></spinner-item>
+        </li>
     </ul>
 
   
@@ -22,7 +25,13 @@ import PostItem from './PostItem.vue'
       posts: {
         type: Array,
         required: true
+      },
+
+      spinnerVisible: {
+        type: Boolean,
+        default: true,
       }
+
     },
   
     methods: {
@@ -32,7 +41,7 @@ import PostItem from './PostItem.vue'
   </script>
   
   <style scoped>
-    .no-post {
+    .no-post, .spinnerItem {
       list-style-type: none;
     }
  
