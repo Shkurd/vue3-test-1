@@ -40,9 +40,15 @@
     
   }
 
-  .select-filter option{
+  .select-filter option {
     height: 20px;
     background: darkcyan;
+    color: white;
+  }
+
+  .select-filter option:disabled {
+    height: 20px;
+    background: rgb(1, 128, 128);
     color: white;
   }
 

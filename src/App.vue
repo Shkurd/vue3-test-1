@@ -6,7 +6,8 @@
   <dialog-window v-model:show="dialogWindowVisible" >
     <posts-form @newPost="createNewPost"/><!--подписывается на событие и назанчаем функцию обработки поступающих данных -->
   </dialog-window>
-  <posts-list :spinnerVisible="spinnerVisible" :posts="posts" @delPost="deletePost"/> <!--параметры, которые передаются (байндятся)в дочерний компонент -->
+  <input-item class="search-input" v-model:value="searchQuery" placeholder="Поиск по тексту поста"/>
+  <posts-list :spinnerVisible="spinnerVisible" :posts="sortBySelectAndSearchQuery" @delPost="deletePost"/> <!--параметры, которые передаются (байндятся)в дочерний компонент -->
 
 </template>
 
@@ -37,6 +38,10 @@ export default {
       dialogWindowVisible: false,
       spinnerVisible: true,
       sortBySelected: '',
+      searchQuery: '',
+      page: 1, // текущая старница
+      limit: 10, // количество постов
+      totalPage: 100, // количество постов, которое максимум может отдать ресурс (в нашем случае jsonplaceholder отдает максимум 100)
       sortOptionsBy: [
         {value: 'title', name: 'по названию'},
         {value: 'text', name: 'по тексту'}
@@ -71,10 +76,10 @@ export default {
     async getDataFromAPI() {
 
       try {
-
-      const response = await fetch('https://jsonplaceholder.typicode.com/posts?_limit=10')
+        this.limit
+      const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+this.limit+'&_page='+this.page;
+      const response = await fetch(url)
       const data = await response.json();
-      console.log(data);
 
       data.forEach(element => {
         this.posts.push({id:new Date(), title: element.title, text: element.body})
@@ -89,6 +94,22 @@ export default {
       
     }
 
+  },
+
+  computed: {
+    sortBySelect() { // Про функцию localeCompare() https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+       return [...this.posts].sort((post1, post2) => post1[this.sortBySelected]?.localeCompare(post2[this.sortBySelected]))
+    },
+
+    sortBySelectAndSearchQuery() {
+      return this.sortBySelect.filter(post => post.text.toLowerCase().includes(this.searchQuery.toLowerCase()))
+    }
+  },
+
+  watch: { // если модель меняется, то работает логика в соответствующей функции 
+    dialogWindowVisible(newValue) { // Называется так же как и модель в data. У нас dialogWindowVisible
+      console.log(newValue)
+    },
   },
 }
 </script>
