@@ -2,6 +2,7 @@
 
     <div class="post-item">
         <div>
+            <div class="post-item-id"><strong>ID: </strong> {{ post.id }}</div>
             <div class="post-item-title"><strong>Название: </strong> {{ post.title }}</div>
             <div class="post-item-text"><strong>Текст: </strong> {{ post.text }}</div>
         </div>

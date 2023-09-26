@@ -35,7 +35,7 @@
     methods: {
       addNewPost() {
         if (this.post.title.trim() && this.post.text.trim()) {
-          this.post.id = new Date();
+          this.post.id = new Date()
           this.$emit('newPost', this.post)// Событие, которое мы будем слшать в родителе, чтобы принять новый пост и второй параметр - аргумент, который будем передавать
           this.post.title = ''
           this.post.text = ''
