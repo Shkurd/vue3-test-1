@@ -1,11 +1,17 @@
 
 import { createRouter, createWebHistory } from "vue-router"
 import MainPage from '@/pages/MainPage.vue'
-import PostPage from '@/pages/PostPage.vue'
+import AllPostsPage from '@/pages/AllPostsPage.vue'
+import SinglePostPage from '@/pages/SinglePostPage.vue'
+import AboutPage from '@/pages/AboutPage.vue'
+
 
 const routes = [
 	{ path: '/', component: MainPage },
-  { path: '/post', component: PostPage },
+  { path: '/posts', component: AllPostsPage },
+	{ path: '/posts/:id', component: SinglePostPage },
+	{ path: '/about', component: AboutPage },
+	
 ]
 
 const router = createRouter({

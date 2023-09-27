@@ -1,6 +1,7 @@
   <template>
+
     <div>
-        <h2>Главная страница</h2>
+        <h2>Cтраница поста с id = {{$route.params.id}}</h2>
     </div>
     
   </template>

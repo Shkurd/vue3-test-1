@@ -1,11 +1,11 @@
 <template>
   <div>
+    <div class="main-logo-wrap">
+      <img class="main-logo" src="@/assets/logo.png" alt="Main-logo" @click ="$router.push('/')"><!--Можно дклать элемент обновляющим роут таким образом-->
       <h1>Основной шаблон с роутами</h1>
-      <nav class="nav">
-        <router-link class="nav-item" to="/">Home</router-link>
-        <router-link class="nav-item" to="/post">Post</router-link>
-      </nav>
-      <router-view></router-view>
+    </div>
+      
+      <my-nav-bar></my-nav-bar>
   </div>
 
 </template>
@@ -35,25 +35,16 @@
     padding: 20px;
   }
 
-  .nav {
+  .main-logo-wrap {
     display: flex;
     align-items: center;
-    border-top: solid 2px rgb(1, 104, 104);
-    border-bottom: solid 2px rgb(1, 104, 104);
-    margin: 10px 0;
   }
 
-  .nav-item {
-    padding: 18px 15px;
-    color: rgb(1, 104, 104);
-    font-weight: 600;
-    text-decoration: none;
+  .main-logo {
+    margin-right: 15px;
+    max-width: 40px;
+    max-height: 40px;
+    cursor: pointer;
   }
-
-  .nav-item:hover, .router-link-active {
-    background: rgb(1, 104, 104);
-    color: white;
-  }
-
 
 </style>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>Страница постов</h1>
+        <h2>Страница постов</h2>
     </div>
     <div class="button-show-modal-wrap">
       <button-item @click="dialogWindowShow">Создать пост</button-item>

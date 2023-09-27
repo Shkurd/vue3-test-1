@@ -28,8 +28,12 @@
       background: rgb(1, 104, 104);
     }
 
-    .btn-delete {
+    .btn-delete, .btn-open {
       padding: 5px 10px;
+    }
+
+    .btn-open {
+      margin-bottom: 10px;
     }
  
   </style>

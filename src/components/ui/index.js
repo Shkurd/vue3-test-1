@@ -5,6 +5,7 @@ import InputItem from '@/components/ui/InputItem.vue'
 import DialogWindow from '@/components/ui/DialogWindow.vue'
 import SpinnerItem from '@/components/ui/SpinnerItem.vue'
 import SelectFilter from '@/components/ui/SelectFilter.vue'
+import MyNavBar from '@/components/ui/MyNavBar.vue'
 
 export default [
     ButtonItem,
@@ -12,4 +13,5 @@ export default [
     DialogWindow,
     SpinnerItem,
     SelectFilter,
+    MyNavBar,
 ]
