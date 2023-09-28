@@ -9,7 +9,7 @@
     <dialog-window v-model:show="dialogWindowVisible" >
       <posts-form @newPost="createNewPost"/><!--подписывается на событие и назанчаем функцию обработки поступающих данных -->
     </dialog-window>
-    <input-item class="search-input" v-model:value="searchQuery" placeholder="Поиск по тексту поста"/>
+    <input-item class="search-input" v-focus v-model:value="searchQuery" placeholder="Поиск по тексту поста"/>
     <posts-list :spinnerVisible="spinnerVisible" :posts="sortBySelectAndSearchQuery" @delPost="deletePost"/> <!--параметры, которые передаются (байндятся)в дочерний компонент -->
     <!-- <div class="pages-wrap">
       <span 
@@ -17,7 +17,9 @@
       :class="{'current-page': page === pageNumber}" 
       v-for="pageNumber in totalPages" :key="pageNumber" @click="changePage(pageNumber)">{{ pageNumber }}</span>
     </div> -->
-    <div ref="observer" class="observer"></div><!-- по этому диву определяем долстал ли юзер до конца страницы -->
+    <!-- <div ref="observer" class="observer"></div>по этому диву определяем долстал ли юзер до конца страницы -->
+
+    <div v-intersection="LoadMoreDataFromAPI"></div>
     <div class="all-posts" v-if="allPostsLoaded">Все посты загружены</div>
   
   </template>
@@ -62,19 +64,19 @@
   
       // this.$refs.observer
       // Intersection_Observer_API https://developer.mozilla.org/ru/docs/Web/API/Intersection_Observer_API
-      const options = {
-        // root: document.querySelector("#scrollArea"), 
-        rootMargin: "0px",
-        threshold: 1.0,
-      };
+      // const options = {
+      //   // root: document.querySelector("#scrollArea"), 
+      //   rootMargin: "0px",
+      //   threshold: 1.0,
+      // };
   
-      const callback = (entries) => {
-        if(entries[0].isIntersecting) {//срабатывает при пересечении вниз, по дефорту в обе стороны срабатывает пересечение
-          this.LoadMoreDataFromAPI()
-        }
-      };
-      const observer = new IntersectionObserver(callback, options);
-      observer.observe(this.$refs.observer)
+      // const callback = (entries) => {
+      //   if(entries[0].isIntersecting) {//срабатывает при пересечении вниз, по дефорту в обе стороны срабатывает пересечение
+      //     this.LoadMoreDataFromAPI()
+      //   }
+      // };
+      // const observer = new IntersectionObserver(callback, options);
+      // observer.observe(this.$refs.observer)
     },
   
     methods: {

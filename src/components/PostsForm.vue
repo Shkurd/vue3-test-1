@@ -1,7 +1,7 @@
   <template>
 
     <form class="form" @submit.prevent>
-      <input-item v-model:value="post.title" placeholder="названеи поста"/>
+      <input-item v-focus v-model:value="post.title" placeholder="названеи поста"/>
       <textarea class="textarea" v-model.trim="post.text" name="" id="" cols="30" rows="10" placeholder="текст поста"></textarea>
       <div class="warn" v-if="validateFields">
         Заполните недостающие поля
