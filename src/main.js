@@ -3,6 +3,7 @@ import App from './App.vue'
 import components from '@/components/ui/index' // импорт массива компонетов
 import directives from '@/directives/index' // импорт массива кастомных директив
 import router from '@/router/router'
+import store from '@/store/index'
 
 
 const app = createApp(App)
@@ -17,4 +18,5 @@ directives.forEach(directive => {
 
 app
     .use(router)
+    .use(store)
     .mount('#app')

@@ -3,8 +3,7 @@
     <h3 v-if="!posts.length">Список постов пуст</h3>
     <ul class="posts-list">
         <transition-group name="posts-list-group">
-          <post-item class="post-item-wrap"
-            v-for="post in posts"
+          <post-item class="post-item-wrap" v-for="post in posts"
             :key="post.id"
             :post="post"
             @delPost="$emit('delPost', post)"

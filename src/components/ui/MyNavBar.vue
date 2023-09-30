@@ -4,6 +4,7 @@
         <router-link class="nav-item" to="/">Home</router-link>
         <router-link class="nav-item" to="/posts">Posts</router-link>
         <router-link class="nav-item" to="/about">About</router-link>
+        <router-link class="nav-item" to="/posts-vuex">Posts VUEX</router-link>
     </nav>
 
     <router-view></router-view>

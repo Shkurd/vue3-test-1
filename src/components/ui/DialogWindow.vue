@@ -15,9 +15,11 @@
   </template>
   
   <script>
+  import toggleMixin from '@/mixins/toggleMixin'
   
   export default {
     name: 'dialog-window',
+    mixins: [toggleMixin], // Основная часть функционала находится в миксине
     props: {
       show: {
         type: Boolean,
