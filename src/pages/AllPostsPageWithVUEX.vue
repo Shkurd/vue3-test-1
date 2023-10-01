@@ -9,12 +9,24 @@
     </div>
     <div class="button-show-modal-wrap">
       <button-item @click="dialogWindowShow">Создать пост</button-item>
-      <select-filter class="select-filter-wrap" v-model="sortBySelected" :sortOptions="sortOptionsBy"></select-filter>
+      <select-filter
+        class="select-filter-wrap"
+        :model-value="sortBySelected" 
+        @update:model-value="setSortBySelected" 
+        :sortOptions="sortOptionsBy"
+        >
+      </select-filter>
     </div>
     <dialog-window v-model:show="dialogWindowVisible" >
       <posts-form @newPost="createNewPost"/>
     </dialog-window>
-    <input-item class="search-input" v-focus v-model:value="searchQuery" placeholder="Поиск по тексту поста"/>
+    <input-item
+      class="search-input"
+      v-focus 
+      :value="searchQuery"
+      @update:value="setSearchQuery" 
+      placeholder="Поиск по тексту поста"
+    />
     <posts-list :spinnerVisible="spinnerVisible" :posts="sortBySelectAndSearchQuery" @delPost="deletePost"/>
 
     <div v-intersection="LoadMoreDataFromAPI"></div>
@@ -36,48 +48,22 @@
   
     data() {
       return {
-        // posts: [],
         dialogWindowVisible: false,
-        // spinnerVisible: true,
-        // allPostsLoaded: false,
-        // sortBySelected: '',
-        // searchQuery: '',
-        // page: 1, // текущая старница
-        // postsLimit: 10, // количество постов
-        // totalPages: 10, // количество постов, которое максимум может отдать ресурс (в нашем случае jsonplaceholder отдает максимум) деленное на количество постов на одной странице.
-        // sortOptionsBy: [
-        //   {value: 'title', name: 'по названию'},
-        //   {value: 'text', name: 'по тексту'}
-        // ],
-  
       }
     },
   
     mounted() {
   
-      // this.getDataFromAPI();
+      this.getDataFromAPI();
   
-      // this.$refs.observer
-      // Intersection_Observer_API https://developer.mozilla.org/ru/docs/Web/API/Intersection_Observer_API
-      // const options = {
-      //   // root: document.querySelector("#scrollArea"), 
-      //   rootMargin: "0px",
-      //   threshold: 1.0,
-      // };
-  
-      // const callback = (entries) => {
-      //   if(entries[0].isIntersecting) {//срабатывает при пересечении вниз, по дефорту в обе стороны срабатывает пересечение
-      //     this.LoadMoreDataFromAPI()
-      //   }
-      // };
-      // const observer = new IntersectionObserver(callback, options);
-      // observer.observe(this.$refs.observer)
     },
   
     methods: {
 
      ...mapMutations ({
-      setPage: 'posts/setPage'
+      setPage: 'posts/setPage',
+      setSearchQuery: 'posts/setSearchQuery',
+      setSortBySelected: 'posts/setSortBySelected',
      }),
 
      ...mapActions ({
@@ -102,70 +88,9 @@
         alert('sortList')
       },
   
-      // changePage(pageNumber) {
-      //   this.page = pageNumber
-      //   this.posts = []
-      // },
-  
-      // async getDataFromAPI() {
-  
-      //   try {
-  
-      //   const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+this.postsLimit+'&_page='+this.page;
-      //   const response = await fetch(url)
-      //   const data = await response.json();
-  
-      //   if (data) {
-      //       this.posts = []
-      //       data.forEach(element => {
-      //       this.posts.push({id:new Date() , title: element.title, text: element.body})
-      //     });
-      //   }
-  
-      //   this.spinnerVisible = false;
-  
-      //   } catch (e){
-      //     console.log('error: ', e)
-      //   }
-        
-      // },
-  
-      // async LoadMoreDataFromAPI() {
-  
-      //   try {
-  
-      //     if (this.page !== this.totalPages) {
-  
-      //       const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+this.postsLimit+'&_page='+this.page;
-      //       const response = await fetch(url)
-      //       const data = await response.json()
-  
-      //       if (data) {
-      //           data.forEach(element => {
-      //           this.posts.push({id:new Date(), title: element.title, text: element.body})
-      //         });
-      //       }
-      //       this.page++
-      //       this.spinnerVisible = false
-      //     } else {
-      //       this.allPostsLoaded = true
-      //     }
-  
-      //   } catch (e){
-      //     console.log('error: ', e)
-      //   }
-      // }
-  
     },
   
     computed: {
-      // sortBySelect() { // Про функцию localeCompare() https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-      //    return [...this.posts].sort((post1, post2) => post1[this.sortBySelected]?.localeCompare(post2[this.sortBySelected]))
-      // },
-  
-      // sortBySelectAndSearchQuery() {
-      //   return this.sortBySelect.filter(post => post.text.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      // }
 
       ...mapState({
         posts: state => state.posts.posts,

@@ -109,7 +109,10 @@ export const postsModule = {
             });
           }
           commit ('setPost', AddNewPostsDate)
-          commit('setPage', state.page++)
+
+          console.log('state.page', state.page)
+          commit('setPage', state.page+1)
+          console.log('state.page', state.page)
           commit('setLoading', false)
         } else {
           commit('setAllPostsLoaded', true)

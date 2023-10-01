@@ -15,6 +15,9 @@
       updateInput(event) {
           this.$emit('update:value', event.target.value)
       }
+      // updateInput(event) {
+      //     this.$emit('update:modelValue', event.target.value)
+      // }
     }
   }
   </script>
