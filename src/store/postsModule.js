@@ -102,12 +102,13 @@ export const postsModule = {
           const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+state.postsLimit+'&_page='+state.page;
           const response = await fetch(url)
           const data = await response.json()
-
+          let AddNewPostsDate = state.posts // Берем уже имеющиеся посты и добавляем дополнительные
           if (data) {
-              data.forEach(element => {
-              state.posts.push({id:new Date(), title: element.title, text: element.body})
+            data.forEach(element => {
+                AddNewPostsDate.push({id:new Date(), title: element.title, text: element.body})
             });
           }
+          commit ('setPost', AddNewPostsDate)
           commit('setPage', state.page++)
           commit('setLoading', false)
         } else {
