@@ -1,6 +1,11 @@
-import {createStore} from 'vuex'
+import { createStore } from 'vuex'
+import { postsModule } from '@/store/postsModule'
 
 export default createStore({
+    modules: {
+        posts: postsModule
+    },
+
     state: {
         likes: 0,
         isAuth: false

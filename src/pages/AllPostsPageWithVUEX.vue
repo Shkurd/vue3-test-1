@@ -2,26 +2,20 @@
     <div class="user">
       {{$store.state.isAuth ? 'Пользователь зарегистрирован' : 'Пользователь не зарегистрирован'}}
     </div>
-    <div>
+     <div>
         <h2>Страница постов с VUEX</h2>
         <h3>Количество лайков: {{ $store.state.likes }}</h3>
+        <h3>state.limit: {{ $store.state.posts.postsLimit }}</h3>
     </div>
     <div class="button-show-modal-wrap">
       <button-item @click="dialogWindowShow">Создать пост</button-item>
       <select-filter class="select-filter-wrap" v-model="sortBySelected" :sortOptions="sortOptionsBy"></select-filter>
     </div>
     <dialog-window v-model:show="dialogWindowVisible" >
-      <posts-form @newPost="createNewPost"/><!--подписывается на событие и назанчаем функцию обработки поступающих данных -->
+      <posts-form @newPost="createNewPost"/>
     </dialog-window>
     <input-item class="search-input" v-focus v-model:value="searchQuery" placeholder="Поиск по тексту поста"/>
-    <posts-list :spinnerVisible="spinnerVisible" :posts="sortBySelectAndSearchQuery" @delPost="deletePost"/> <!--параметры, которые передаются (байндятся)в дочерний компонент -->
-    <!-- <div class="pages-wrap">
-      <span 
-      class="pages-item" 
-      :class="{'current-page': page === pageNumber}" 
-      v-for="pageNumber in totalPages" :key="pageNumber" @click="changePage(pageNumber)">{{ pageNumber }}</span>
-    </div> -->
-    <!-- <div ref="observer" class="observer"></div>по этому диву определяем долстал ли юзер до конца страницы -->
+    <posts-list :spinnerVisible="spinnerVisible" :posts="sortBySelectAndSearchQuery" @delPost="deletePost"/>
 
     <div v-intersection="LoadMoreDataFromAPI"></div>
     <div class="all-posts" v-if="allPostsLoaded">Все посты загружены</div>
@@ -31,6 +25,8 @@
   <script>
   import PostsForm from '@/components/PostsForm.vue'
   import PostsList from '@/components/PostsList.vue'
+
+  import {mapState, mapGetters, mapActions, mapMutations} from 'vuex'
   
   
   export default {
@@ -40,31 +36,26 @@
   
     data() {
       return {
-        posts: [
-          // {id:new Date(), title: 'title 1', text: 'text 1'},
-          // {id:new Date(), title: 'title 2', text: 'text 2'},
-          // {id:new Date(), title: 'title 3', text: 'text 3'}
-        ],
-  
+        // posts: [],
         dialogWindowVisible: false,
-        spinnerVisible: true,
-        allPostsLoaded: false,
-        sortBySelected: '',
-        searchQuery: '',
-        page: 1, // текущая старница
-        postsLimit: 10, // количество постов
-        totalPages: 10, // количество постов, которое максимум может отдать ресурс (в нашем случае jsonplaceholder отдает максимум) деленное на количество постов на одной странице.
-        sortOptionsBy: [
-          {value: 'title', name: 'по названию'},
-          {value: 'text', name: 'по тексту'}
-        ],
+        // spinnerVisible: true,
+        // allPostsLoaded: false,
+        // sortBySelected: '',
+        // searchQuery: '',
+        // page: 1, // текущая старница
+        // postsLimit: 10, // количество постов
+        // totalPages: 10, // количество постов, которое максимум может отдать ресурс (в нашем случае jsonplaceholder отдает максимум) деленное на количество постов на одной странице.
+        // sortOptionsBy: [
+        //   {value: 'title', name: 'по названию'},
+        //   {value: 'text', name: 'по тексту'}
+        // ],
   
       }
     },
   
     mounted() {
   
-      this.getDataFromAPI();
+      // this.getDataFromAPI();
   
       // this.$refs.observer
       // Intersection_Observer_API https://developer.mozilla.org/ru/docs/Web/API/Intersection_Observer_API
@@ -84,6 +75,15 @@
     },
   
     methods: {
+
+     ...mapMutations ({
+      setPage: 'posts/setPage'
+     }),
+
+     ...mapActions ({
+      getDataFromAPI: 'posts/getDataFromAPI',
+      LoadMoreDataFromAPI: 'posts/LoadMoreDataFromAPI'
+      }),
   
       createNewPost(post) {
         this.posts.push({...post});// извлекаем данные из прокси обьекта и пушим (https://stackoverflow.com/questions/66605274/accessing-a-proxy-object-in-vue3)
@@ -107,65 +107,83 @@
       //   this.posts = []
       // },
   
-      async getDataFromAPI() {
+      // async getDataFromAPI() {
   
-        try {
+      //   try {
   
-        const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+this.postsLimit+'&_page='+this.page;
-        const response = await fetch(url)
-        const data = await response.json();
+      //   const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+this.postsLimit+'&_page='+this.page;
+      //   const response = await fetch(url)
+      //   const data = await response.json();
   
-        if (data) {
-            this.posts = []
-            data.forEach(element => {
-            this.posts.push({id:new Date() , title: element.title, text: element.body})
-          });
-        }
+      //   if (data) {
+      //       this.posts = []
+      //       data.forEach(element => {
+      //       this.posts.push({id:new Date() , title: element.title, text: element.body})
+      //     });
+      //   }
   
-        this.spinnerVisible = false;
+      //   this.spinnerVisible = false;
   
-        } catch (e){
-          console.log('error: ', e)
-        }
+      //   } catch (e){
+      //     console.log('error: ', e)
+      //   }
         
-      },
+      // },
   
-      async LoadMoreDataFromAPI() {
+      // async LoadMoreDataFromAPI() {
   
-        try {
+      //   try {
   
-          if (this.page !== this.totalPages) {
+      //     if (this.page !== this.totalPages) {
   
-            const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+this.postsLimit+'&_page='+this.page;
-            const response = await fetch(url)
-            const data = await response.json()
+      //       const url = 'https://jsonplaceholder.typicode.com/posts?_limit='+this.postsLimit+'&_page='+this.page;
+      //       const response = await fetch(url)
+      //       const data = await response.json()
   
-            if (data) {
-                data.forEach(element => {
-                this.posts.push({id:new Date(), title: element.title, text: element.body})
-              });
-            }
-            this.page++
-            this.spinnerVisible = false
-          } else {
-            this.allPostsLoaded = true
-          }
+      //       if (data) {
+      //           data.forEach(element => {
+      //           this.posts.push({id:new Date(), title: element.title, text: element.body})
+      //         });
+      //       }
+      //       this.page++
+      //       this.spinnerVisible = false
+      //     } else {
+      //       this.allPostsLoaded = true
+      //     }
   
-        } catch (e){
-          console.log('error: ', e)
-        }
-      }
+      //   } catch (e){
+      //     console.log('error: ', e)
+      //   }
+      // }
   
     },
   
     computed: {
-      sortBySelect() { // Про функцию localeCompare() https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
-         return [...this.posts].sort((post1, post2) => post1[this.sortBySelected]?.localeCompare(post2[this.sortBySelected]))
-      },
+      // sortBySelect() { // Про функцию localeCompare() https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare
+      //    return [...this.posts].sort((post1, post2) => post1[this.sortBySelected]?.localeCompare(post2[this.sortBySelected]))
+      // },
   
-      sortBySelectAndSearchQuery() {
-        return this.sortBySelect.filter(post => post.text.toLowerCase().includes(this.searchQuery.toLowerCase()))
-      }
+      // sortBySelectAndSearchQuery() {
+      //   return this.sortBySelect.filter(post => post.text.toLowerCase().includes(this.searchQuery.toLowerCase()))
+      // }
+
+      ...mapState({
+        posts: state => state.posts.posts,
+        dialogWindowVisible: state => state.posts.dialogWindowVisible,
+        spinnerVisible: state => state.posts.spinnerVisible,
+        allPostsLoaded: state => state.posts.allPostsLoaded,
+        sortBySelected: state => state.posts.sortBySelected,
+        searchQuery: state => state.posts.searchQuery,
+        page: state => state.posts.page, // текущая старница
+        postsLimit: state => state.posts.postsLimit, // количество постов
+        totalPages: state => state.posts.totalPages, // количество постов, которое максимум может отдать ресурс (в нашем случае jsonplaceholder отдает максимум) деленное на количество постов на одной странице.
+        sortOptionsBy: state => state.posts.sortOptionsBy,
+      }),
+
+      ...mapGetters({
+        sortBySelect: 'posts/sortBySelect',
+        sortBySelectAndSearchQuery: 'posts/sortBySelectAndSearchQuery'
+      }),
     },
   
     watch: { // если модель меняется, то работает логика в соответствующей функции 
